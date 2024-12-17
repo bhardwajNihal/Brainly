@@ -6,6 +6,7 @@ import zod from "zod"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv";
+import { log } from "console"
 dotenv.config()
 
 const app = express()
@@ -55,16 +56,21 @@ userRoute.post("/signup", async(req:Request, res:Response) => {
 
     const hashedPassword = await bcrypt.hash(password,10);
 
-    await User.create({
-        firstname: firstname,
-        lastname: lastname,
-        email: email,
-        password: hashedPassword
-    });
-
-    res.status(200).json({
-        message: "user signed up successfully!"
-    });
+    try {
+        await User.create({
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            password: hashedPassword
+        });
+    
+        res.status(200).json({
+            message: "user signed up successfully!"
+        });
+    } catch (error) {
+        console.log("Data storage failed!\nError : ",error);
+        
+    }
 })
 
 

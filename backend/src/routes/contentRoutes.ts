@@ -1,27 +1,70 @@
 import express from "express"
-const app = express()
-
 import { Router } from "express"
+import { Request, Response } from "express"         //Request and Response are types from the Express library, and we need to explicitly import them to make TypeScript aware of their usage.
+import { Content } from "../models/contentModel"
+import { Tag } from "../models/tagModel"
+import { Link } from "../models/linkModel"
+import { userAuth } from "../middlewares/Auth"
+
+
+const app = express()
 const contentRoute = Router()
 
-import { Request, Response } from "express"         //Request and Response are types from the Express library, and we need to explicitly import them to make TypeScript aware of their usage.
+
 
 app.use(express.json())
 
 // add content route
-contentRoute.post("/", (req:Request, res:Response) => {
-    res.send("content added")
-})
+contentRoute.post("/", userAuth, async(req:Request, res:Response) => {
 
-// delete content
-contentRoute.delete("/", (req:Request, res:Response) => {
-    res.send("content deleted")
+    //@ts-ignore
+    const userId = req.userId
+    const { title, link, type, tags } = req.body;
+
+    await Content.create({
+        title,
+        link,
+        type,
+        tags:[],
+        userId
+    })
+
+    res.status(200).json({
+        mesage: "content added successfully!"
+    })
+
 })
 
 // preview all content
-contentRoute.get("/", (req:Request, res:Response) => {
-    res.send("list of content")
+contentRoute.get("/", userAuth, async(req:Request, res:Response) => {
+    // @ts-ignore
+    const userId = req.userId;
+
+    const content = await Content.findOne({
+        userId: userId,
+    }).populate("userId","firstname lastname email")
+
+    res.status(200).json({
+        content
+    })
 })  
+
+// delete content
+contentRoute.delete("/",userAuth, async(req:Request, res:Response) => {
+    //@ts-ignore
+    const userId = req.userId;
+    const contentId = req.body.contentId;
+
+    await Content.deleteMany({
+        _id : contentId,
+        userId : userId
+    })
+
+    res.status(200).json({
+        message: "Content deleted successfully!"
+    })
+
+})
 
 
 export default contentRoute
