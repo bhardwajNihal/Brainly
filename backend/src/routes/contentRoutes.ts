@@ -17,7 +17,7 @@ app.use(express.json())
 // add content route
 contentRoute.post("/", userAuth, async(req:Request, res:Response) => {
 
-    //@ts-ignore
+
     const userId = req.userId
     const { title, link, type, tags } = req.body;
 
@@ -37,7 +37,7 @@ contentRoute.post("/", userAuth, async(req:Request, res:Response) => {
 
 // preview all content
 contentRoute.get("/", userAuth, async(req:Request, res:Response) => {
-    // @ts-ignore
+
     const userId = req.userId;
 
     const content = await Content.findOne({
@@ -51,7 +51,7 @@ contentRoute.get("/", userAuth, async(req:Request, res:Response) => {
 
 // delete content
 contentRoute.delete("/",userAuth, async(req:Request, res:Response) => {
-    //@ts-ignore
+
     const userId = req.userId;
     const contentId = req.body.contentId;
 

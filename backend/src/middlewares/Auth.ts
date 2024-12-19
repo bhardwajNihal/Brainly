@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken"
+import jwt, { JwtPayload } from "jsonwebtoken"
 import dotenv from "dotenv"
 dotenv.config()
 
@@ -15,7 +15,6 @@ export const userAuth = (req:Request, res:Response, next:NextFunction) => {
         return;
     }
 
-    //@ts-ignore
-    req.userId = verifiedToken.id;
+    req.userId = (verifiedToken as JwtPayload).id;
     next()
 }
