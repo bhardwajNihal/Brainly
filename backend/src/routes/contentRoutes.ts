@@ -3,10 +3,11 @@ import { Router } from "express"
 import { Request, Response } from "express"         //Request and Response are types from the Express library, and we need to explicitly import them to make TypeScript aware of their usage.
 import { Content } from "../models/contentModel"
 import { Tag } from "../models/tagModel"
-import { Link } from "../models/sharelinkModel"
+import { Sharelink } from "../models/sharelinkModel"
 import { userAuth } from "../middlewares/Auth"
 
 import { generateRandomHash } from "../utils/hashlink"
+import { User } from "../models/userModel"
 
 const app = express()
 const contentRoute = Router()
@@ -41,7 +42,7 @@ contentRoute.get("/", userAuth, async(req:Request, res:Response) => {
 
     const userId = req.userId;
 
-    const content = await Content.findOne({
+    const content = await Content.find({
         userId: userId,
     }).populate("userId","firstname lastname email")
 
@@ -69,51 +70,78 @@ contentRoute.delete("/",userAuth, async(req:Request, res:Response) => {
 
 
 // create a shareable link
-contentRoute.post("/share", userAuth, async(req:Request, res:Response) => {
+contentRoute.post("/brain/share", userAuth, async(req:Request, res:Response) => {
     
-    const share = req.body.share;
     const userId = req.userId;
 
-    if(share) {
+    const findLink = await Sharelink.findOne({userId});
+
+    if(!findLink){
         const hash = generateRandomHash(20);
-
-        const findLink = await Link.findOne({userId});
-
-        if(!findLink){
-            await Link.create({
-                hash,
-                userId      
-            })
-    
-            res.json({
-                message: "hash create successfully!!",
-                hash: hash
-            })
-            return;
-        }
-        res.status(411).json({
-            message: "shareable link already exists for the user!!!"
+        await Sharelink.create({
+            hash: hash,
+            userId: userId,
+            share: req.body.share
+        })
+        res.json({
+            message: "hash created successfully!",
+            hash : hash
         })
         
     }
-    else{
-        await Link.deleteOne({
-            userId
-        })
 
-        res.status(403).json({
-            message: "link deleted!!!"
+    else{
+        const findhash = await Sharelink.findOne({userId})
+        await Sharelink.updateOne({
+            userId: req.userId
+        },{
+            $set : {share : req.body.share}
+        })
+        res.json({
+            message : "Hash updated successfully!",
+            hash: findhash?.hash
         })
     }
-    
-    
-    
-    
+
 })
 
 // view the shareable content
-contentRoute.get("/share:link", (req:Request, res:Response) => {
+contentRoute.get("/brain/:sharelink", async(req:Request, res:Response) => {
+    
+    const hash = req.params.sharelink;
 
+    const findhash = await Sharelink.findOne({hash});
+
+    if(findhash && findhash.share === true){
+        
+        const findUser = await User.findOne({
+            _id : findhash.userId
+        });
+        if(!findUser){
+            res.json({
+                message: "User not found!"
+            })
+            return;
+        }
+        const findContent = await Content.find({
+            userId: findhash.userId
+        });
+    
+        res.json({
+            username : `${findUser?.firstname} ${findUser?.lastname}`,
+            content : findContent,
+            
+        })
+        return;
+    }
+
+    res.json({
+        message : "Sharelink invalid or sharing is disabled!!!"
+    })
+    return;
+
+    
+   
 })
 
 
