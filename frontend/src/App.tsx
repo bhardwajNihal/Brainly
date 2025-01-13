@@ -1,21 +1,30 @@
+import { AddModalPopup } from "./Components/ui/Add-modal-popup"
 import { MainArea } from "./Components/ui/MainArea"
 import { Navbar } from "./Components/ui/Navbar"
+import { Overlay } from "./Components/ui/Overlay"
 import { Sidebar } from "./Components/ui/Sidebar"
 
 function App() {
 
 
   return (
-   <div className="flex flex-col" >
+    <div className="parent">
+        
+        <Overlay/>
+        <AddModalPopup/>
 
-      <Navbar/>
+      <div className="flex flex-col" >
 
-      <div className="flex">
-        <Sidebar/>
-        <MainArea/>
+        <Navbar />
+
+        <div className="flex">
+          <Sidebar />
+          <MainArea />
+        </div>
+
       </div>
 
-   </div>
+    </div>
 
   )
 }
