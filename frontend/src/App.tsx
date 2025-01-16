@@ -1,32 +1,18 @@
-import { AddModalPopup } from "./Components/ui/Add-modal-popup"
-import { MainArea } from "./Components/ui/MainArea"
-import { Navbar } from "./Components/ui/Navbar"
-import { Overlay } from "./Components/ui/Overlay"
-import { Sidebar } from "./Components/ui/Sidebar"
+
+import { Dashboard } from "./Pages/Dashboard"
+import { Homepage } from "./Pages/Homepage"
+import { SignIn } from "./Pages/signin"
+import { Signup } from "./Pages/signup"
 
 function App() {
 
 
   return (
-    <div className="parent">
-        
-        <Overlay/>
-        <AddModalPopup/>
-
-      <div className="flex flex-col" >
-
-        <Navbar />
-
-        <div className="flex">
-          <Sidebar />
-          <MainArea />
-        </div>
-
-      </div>
-
-    </div>
-
-  )
+      // <Dashboard/>
+      // <Homepage/>
+      // <Signup/>
+      <SignIn/>
+    )
 }
 
 export default App

@@ -4,9 +4,9 @@ interface logoProp{
 }
 
 const logoSize = { 
-    sm : "size-4",
-    md : "size-6",
-    lg : "size-8",
+    sm : "size-6",
+    md : "size-8",
+    lg : "size-12",
 }
 
 export function LogoIcon(prop:logoProp){

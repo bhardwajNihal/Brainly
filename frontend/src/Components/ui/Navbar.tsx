@@ -18,7 +18,7 @@ export function Navbar(){
 
     return <div className=" h-16 w-full bg-white flex justify-between items-center px-5 fixed top-0 left-0 z-10">
 
-        <div className=" text-purple-600 text-xl font-bold flex gap-1 items-center my-4"><LogoIcon size="lg"/>Brainly</div>
+        <div className=" text-purple-600 text-xl font-bold flex gap-1 items-center my-4"><LogoIcon size="sm"/>Brainly</div>
 
         <div className="menuIcon md:hidden text-purple-600">
             <MenuIcon size="md"/>
