@@ -6,7 +6,6 @@ import zod from "zod"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv";
-import { log } from "console"
 dotenv.config()
 
 const app = express()
@@ -47,7 +46,7 @@ userRoute.post("/signup", async(req:Request, res:Response) => {
 
     if(findUser){
         res.status(403).json({
-            message: "user already exists!"
+            message: "User already exists!"
         })
         return;
     }
@@ -65,7 +64,7 @@ userRoute.post("/signup", async(req:Request, res:Response) => {
         });
     
         res.status(200).json({
-            message: "user signed up successfully!"
+            message: "User Signed Up Successfully!"
         });
     } catch (error) {
         console.log("Error Signing Up!\nError : ",error);
@@ -85,7 +84,7 @@ userRoute.post("/signin", async(req:Request, res:Response) => {
 
     if(!findUser){
         res.status(403).json({
-            message: "user not found!"
+            message: "User not found!"
         })
         return;
     }
@@ -93,7 +92,7 @@ userRoute.post("/signin", async(req:Request, res:Response) => {
     const checkPassword = await bcrypt.compare(password,findUser.password as string);
 
     if(!checkPassword){
-        res.status(403).json({
+        res.status(411).json({
             message: "Wrong Password!"
         })
         return;
