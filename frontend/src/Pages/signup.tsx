@@ -3,6 +3,7 @@ import axios from "axios"
 import React from "react"
 import { Link } from "react-router-dom"
 import { CrossIcon } from "../icons/crossIcon"
+import { toast } from "react-toastify"
 
 // defining interface of the expected input globally
 interface formDataType {
@@ -21,15 +22,15 @@ export const Signup: React.FC = () => {
     // onSubmit function, to handle the form data on submission
     const onSubmit: SubmitHandler<formDataType> = async (data) => {
         try {
-            // const response = await axios.post("http://localhost:3000/api/v1/user/signup", data)
-            // console.log("SignUp successful!", response.data);
-            alert("signup successful!")
-            console.log(data);
+            const response = await axios.post("http://localhost:3000/api/v1/user/signup", data)
+            // console.log("SignUp successful!", response);
+            toast.success(response.data.message);
+            // console.log(data);
             
 
-        } catch (error) {
+        } catch (error:any) {
             console.log("Error signing up!", error);
-
+            toast.error(error.response.data.message)
         }
     }
 
