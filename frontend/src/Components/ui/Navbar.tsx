@@ -7,6 +7,7 @@ import { useSetRecoilState } from "recoil"
 import { addModalAtom } from "../../Atoms/AddModalAtom"
 
 
+
 export function Navbar(){
 
     const AddModalState = useSetRecoilState(addModalAtom)

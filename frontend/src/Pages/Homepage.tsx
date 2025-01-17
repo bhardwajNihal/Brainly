@@ -1,5 +1,6 @@
 import { LogoIcon } from "../icons/LogoIcon";
 import { MenuIcon } from "../icons/MenuIcon";
+import { Link } from "react-router-dom"
 
 
 export function Homepage() {
@@ -15,8 +16,8 @@ export function Homepage() {
 
 
             <div className="hidden md:block" >
-                <button className="bg-purple-600 text-white h-12 w-24 rounded-l-full mr-2">Signup</button>
-                <button className="border border-gray-500  h-12 w-24 rounded-r-full">Login</button>
+                <button className="bg-purple-600 text-white h-12 w-24 rounded-l-full mr-2"><Link to="/signup">Sign Up</Link></button>
+                <button className="border border-gray-500  h-12 w-24 rounded-r-full"><Link to="/signin">Login</Link></button>
             </div>
 
             <div className="md:hidden">
