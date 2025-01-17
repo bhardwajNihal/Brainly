@@ -68,8 +68,8 @@ userRoute.post("/signup", async(req:Request, res:Response) => {
             message: "user signed up successfully!"
         });
     } catch (error) {
-        console.log("Data storage failed!\nError : ",error);
-        
+        console.log("Error Signing Up!\nError : ",error);
+        return;
     }
 })
 

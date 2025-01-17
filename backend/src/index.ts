@@ -1,4 +1,4 @@
-
+// declaring type of userId globally
 declare global {
     namespace Express{
         export interface Request{
@@ -9,8 +9,9 @@ declare global {
 
 
 import express from "express" 
+import cors from 'cors'
 const app = express()
-
+app.use(cors())
 
 import ConnectionToDB from "./db/db_connection"
 
@@ -19,7 +20,6 @@ app.use(express.json())             //essential when working with JSON payloads 
 //routes
 import userRoute from "./routes/userRoutes"
 import contentRoute from "./routes/contentRoutes"
-import { error } from "console"
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/content", contentRoute)
