@@ -6,6 +6,7 @@ import zod from "zod"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv";
+import { userAuth } from "../middlewares/Auth"
 dotenv.config()
 
 const app = express()
@@ -107,7 +108,20 @@ userRoute.post("/signin", async(req:Request, res:Response) => {
         token: token
     })
 
-
 })
 
+
+userRoute.get("/getUserData" ,userAuth, async(req:Request, res:Response) => {
+    const userId = req.userId;
+
+    const userData = await User.findOne({
+        _id: userId
+    })
+
+    res.json({
+        userData
+    })
+})
+
+userRoute
 export default userRoute;

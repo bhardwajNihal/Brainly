@@ -6,6 +6,7 @@ import { CrossIcon } from "../icons/crossIcon"
 import { toast } from "react-toastify"
 import { Logo } from "../Components/ui/logo"
 import { useNavigate } from "react-router-dom"
+import {BACKEND_URL} from "../../config"
 
 
 // defining interface of the expected input globally
@@ -25,7 +26,7 @@ export const SignIn: React.FC = () => {
     // onSubmit function, to handle the form data on submission
     const onSubmit: SubmitHandler<formDataType> = async (data) => {
         try {
-            const response = await axios.post("http://localhost:3000/api/v1/user/signin", data)
+            const response = await axios.post( BACKEND_URL + "/api/v1/user/signin", data)
             // console.log("SignUp successful!", response.data);
             toast.success(response.data.message)
             // console.log(response.data);

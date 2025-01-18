@@ -1,36 +1,53 @@
-import { Button } from "./Button"
+
 import { Logo } from "./logo"
-import { ShareIcon } from "../../icons/shareIcon"
-import { PlusIcon } from "../../icons/plusIcon"
 import { MenuIcon } from "../../icons/MenuIcon"
-import { useSetRecoilState } from "recoil"
-import { addModalAtom } from "../../Atoms/AddModalAtom"
-
-
+import { useEffect, useState } from "react"
+import { BACKEND_URL } from "../../../config"
 
 
 export function Navbar(){
+    // To express Date in a friendly format
+    const formatDate = (date:any) => {
+        const options = { 
+            weekday: 'short', // Short weekday name (e.g., Sat)
+            day: 'numeric',   // Day of the month (e.g., 17)
+            month: 'short',   // Short month name (e.g., Jan)
+            year: 'numeric',  // Full year (e.g., 2025)
+        };
+        
+        return new Intl.DateTimeFormat('en-US', options).format(date);
+    };
 
-    const AddModalState = useSetRecoilState(addModalAtom)
-    
-    function setAddModalState(){
-        AddModalState(curr => !curr)
+
+    const [userName, setUserName] = useState("")
+
+    async function fetchUserData() {
+        const token = localStorage.getItem("token")
+        const response = await axios.get(BACKEND_URL + "/api/v1/user/getUserData",{
+            headers: {
+                authorization : token
+            }
+        });
+        // console.log(response.data.userData.firstname + " "+ response.data.userData.lastname);j
+        setUserName(response.data.userData.firstname + " "+ response.data.userData.lastname)
+        
     }
 
+    useEffect(() => {
+        fetchUserData()
+    },[])
 
     return <div className=" h-16 w-full bg-white flex justify-between items-center px-5 fixed top-0 left-0 z-10">
 
         <Logo/>
 
-        <div className="menuIcon md:hidden text-purple-600">
-            <MenuIcon size="md"/>
+        <div className="greeting mr-2 md:mr-6 text-gray-700 text-lg flex flex-col items-end">
+            <h2 >Welcome! <span className="font-medium text-purple-600">{userName}</span></h2>
+            <h3 className="text-gray-500 text-base  ">{formatDate(new Date() )}</h3>
         </div>
 
-        <div className="hidden md:block md:flex md:gap-4">
-
-            <div><Button variant="secondary" size="sm" text="Share Brain" startIcon={<ShareIcon size="md"/>}/></div>
-            
-            <div><Button variant="primary" size="sm" text="Add content" startIcon={<PlusIcon size="md" />} onclick={setAddModalState}/></div>
+        <div className="menuIcon md:hidden text-purple-600">
+            <MenuIcon size="md"/>
         </div>
 
     </div>

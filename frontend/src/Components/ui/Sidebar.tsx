@@ -35,7 +35,7 @@ export function Sidebar(){
                 <span className=" hidden text-sm md:block">Tags</span>
             </div>
 
-        <div className="hidden md:block fixed bottom-4 left-4">
+        <div className="hidden md:block fixed bottom-10 left-8">
             <Button variant="primary" size="sm" text="Logout" endIcon={<LogoutIcon size="sm"/>}/>
             </div>
 
