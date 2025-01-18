@@ -4,6 +4,8 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { CrossIcon } from "../icons/crossIcon"
 import { toast } from "react-toastify"
+import { Logo } from "../Components/ui/logo"
+import { useNavigate } from "react-router-dom"
 
 // defining interface of the expected input globally
 interface formDataType {
@@ -19,14 +21,16 @@ export const Signup: React.FC = () => {
     // destructuring the useform hook, to get required functionalities
     const { register, handleSubmit, formState: { errors } } = useForm<formDataType>()
 
+    const navigate = useNavigate()
+
     // onSubmit function, to handle the form data on submission
     const onSubmit: SubmitHandler<formDataType> = async (data) => {
         try {
             const response = await axios.post("http://localhost:3000/api/v1/user/signup", data)
             // console.log("SignUp successful!", response);
-            toast.success(response.data.message);
+            toast.success(response.data.message + "           Redirected to Login page!");
             // console.log(data);
-            
+            navigate("/signin")
 
         } catch (error:any) {
             console.log("Error signing up!", error);
@@ -36,6 +40,11 @@ export const Signup: React.FC = () => {
 
     // now just render the UI for the form
     return <div className="parent bg-purple-200 flex justify-center items-center h-svh w-full">
+        
+            <div className="absolute top-5 left-10">
+            <Logo/>
+            </div>
+
         <div className="h-auto w-80 bg-white rounded p-4 shadow-lg relative">
             <h2 className="text-2xl font-semibold text-center text-purple-600 mb-6">Sign Up</h2>
 
