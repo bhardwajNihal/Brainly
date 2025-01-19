@@ -3,9 +3,8 @@ import mongoose from "mongoose";
 const contentSchema = new mongoose.Schema({
 
     title: {type:String, required: true},
-    link: String,
-    type: {type:String, enum:["Document","Tweet","Youtube","Link"]},
-    tags: [{type: mongoose.Schema.Types.ObjectId, ref: "Tag"}],
+    link: {type:String,required:true},
+    type: {type:String,required:true, enum:["Document","Tweet","Youtube"]},
     userId:  {type: mongoose.Schema.Types.ObjectId, ref: "User"}
 
 })

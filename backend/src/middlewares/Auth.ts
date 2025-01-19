@@ -6,6 +6,12 @@ dotenv.config()
 export const userAuth = (req:Request, res:Response, next:NextFunction) => {
     const token = req.headers["authorization"];
 
+    if(!token){
+        res.status(411).json({
+            message : "token not found!"
+        })
+    }
+
     const verifiedToken = jwt.verify(token as string, process.env.JWT_SECRET as string );
 
     if(!verifiedToken){

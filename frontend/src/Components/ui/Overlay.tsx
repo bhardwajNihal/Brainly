@@ -11,7 +11,7 @@ export function Overlay(){
         AddModalState(curr => !curr)
     }
     return <div onClick={setAddModalState}>
-        {isModalOpen && <div className="h-full w-svw bg-black/50 backdrop-blur-sm absolute top-0 left-0 z-30 ">
+        {isModalOpen && <div className="h-full w-svw bg-black/50 backdrop-blur-sm absolute top-0 left-0 z-50 ">
             </div>}
     </div>
 }

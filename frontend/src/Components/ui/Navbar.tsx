@@ -3,6 +3,7 @@ import { Logo } from "./logo"
 import { MenuIcon } from "../../icons/MenuIcon"
 import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../../../config"
+import axios from "axios"
 
 
 export function Navbar(){
@@ -29,8 +30,7 @@ export function Navbar(){
             }
         });
         // console.log(response.data.userData.firstname + " "+ response.data.userData.lastname);j
-        setUserName(response.data.userData.firstname + " "+ response.data.userData.lastname)
-        
+        setUserName(response.data.userData.firstname + " "+ response.data.userData.lastname);
     }
 
     useEffect(() => {
@@ -41,14 +41,18 @@ export function Navbar(){
 
         <Logo/>
 
+    <div className="flex gap-4 justify-center items-center">
+        {/* Greeting */}
         <div className="greeting mr-2 md:mr-6 text-gray-700 text-lg flex flex-col items-end">
-            <h2 >Welcome! <span className="font-medium text-purple-600">{userName}</span></h2>
+            <h2 className="flex gap-1"><span className="hidden md:block">Welcome! </span><span className="font-medium text-purple-600">{userName}</span></h2>
             <h3 className="text-gray-500 text-base  ">{formatDate(new Date() )}</h3>
         </div>
 
+    {/* MenuIcon */}
         <div className="menuIcon md:hidden text-purple-600">
             <MenuIcon size="md"/>
         </div>
+    </div>
 
     </div>
 }
