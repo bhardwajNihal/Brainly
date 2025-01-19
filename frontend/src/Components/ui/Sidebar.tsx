@@ -9,6 +9,8 @@ import { TweetIcon } from "../../icons/tweetIcon";
 import { VideoIcon } from "../../icons/videoIcon";
 import { Button } from "./Button";
 import { addModalAtom } from "../../Atoms/AddModalAtom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export function Sidebar() {
 
@@ -18,6 +20,14 @@ export function Sidebar() {
         AddModalState(curr => !curr)
         console.log("modal state changed!");
         
+    }
+
+    const navigate = useNavigate()
+    async function Logout(){
+        localStorage.removeItem("token");
+        await new Promise(res => setTimeout(res,2000))
+        navigate("/")
+        toast.success("You Logged out successfully!")
     }
 
 
@@ -60,7 +70,7 @@ export function Sidebar() {
         </div>
 
         <div >
-            <Button variant="primary" size="sm" text="Logout" endIcon={<LogoutIcon size="sm" />} />
+            <Button variant="primary" size="sm" text="Logout" endIcon={<LogoutIcon size="sm"/>} onclick={Logout}/>
         </div>
     </div>
 
