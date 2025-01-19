@@ -7,8 +7,7 @@ import { DeleteIcon } from "../../icons/deleteIcon"
 interface cardProps{
     title: string,
     link?: string,
-    type: "tweet" | "youtube" | "document" | "others"
-
+    type: "Tweet" | "Youtube"
 }
 
 export function Card({type,title,link}:cardProps){
@@ -19,9 +18,10 @@ export function Card({type,title,link}:cardProps){
 
             <div className="flex justify-center items-center">
                 <div>
-                {(type==="tweet" && <TweetIcon size="sm"/>) 
-                || (type==="youtube" && <VideoIcon size="sm"/>) 
-                || (type==="document" && <DocumentIcon size="sm"/>)}
+                {
+                (type==="Tweet" && <TweetIcon size="sm"/>) || 
+                (type==="Youtube" && <VideoIcon size="sm"/>)
+                }
                 </div> 
 
                 <div className="text-gray-700 w-32 text-sm font-medium ml-2 mr-3">
@@ -42,10 +42,10 @@ export function Card({type,title,link}:cardProps){
 
         <div className="cardMain my-2 mx-1">
 
-            {(type==="youtube" &&
+            {(type==="Youtube" &&
                 <iframe className="w-full" src={link?.replace("watch","embed").replace("?v=","/")} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>)
                 
-            || (type==="tweet" &&
+            || (type==="Tweet" &&
                 <blockquote className="twitter-tweet">
                 <a href={link?.replace("x.com","twitter.com")}></a> 
                 </blockquote>)    

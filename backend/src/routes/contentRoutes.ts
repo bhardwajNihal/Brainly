@@ -7,7 +7,6 @@ import { userAuth } from "../middlewares/Auth"
 
 import { generateRandomHash } from "../utils/hashlink"
 import { User } from "../models/userModel"
-import { log } from "console"
 
 const app = express()
 const contentRoute = Router()
@@ -32,7 +31,7 @@ contentRoute.post("/", userAuth, async(req:Request, res:Response) => {
         })
     
         res.status(200).json({
-            mesage: "content added successfully!"
+            message: "Content Added Successfully!"
         })
     } catch (error) {
         console.log("Error adding content!", error);
@@ -51,7 +50,7 @@ contentRoute.get("/", userAuth, async(req:Request, res:Response) => {
     }).populate("userId","firstname lastname email")
 
     res.status(200).json({
-        content: "list of contents"
+        content:content
     })
 })  
 

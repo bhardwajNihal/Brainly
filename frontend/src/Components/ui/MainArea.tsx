@@ -1,35 +1,33 @@
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Card } from "./Card"
 import axios from "axios"
 import { BACKEND_URL } from "../../../config"
 
 export function MainArea() {
 
-    // async function fetchContent(){
-    //     try {
-    //         const token = localStorage.getItem("token");
+   const [contents, setContents] = useState([])
 
-    //         if (!token) {
-    //             console.error("Token not found in localStorage");
-    //             return;
-    //         }
-    //         const response = await axios.get(BACKEND_URL + "/api/v1/content",{
-    //             headers : {
-    //                 authorization: token
-    //             }
-    //         })
-    //         console.log("getting response!");
-    //         console.log(response);
-    //     } catch (error) {
-    //         console.log("Error fetching data!",error);   
-    //     }
-        
-    // }
+    async function  fetchuserContent() {
 
-    // useEffect(() => {
-    //     fetchContent()
-    // },[])
+    const token = localStorage.getItem("token")
+
+    const response = await axios.get(BACKEND_URL + "/api/v1/content",{
+        headers : {
+            authorization : token
+        }
+    })
+    // console.log(response.data.content);
+    setContents(response.data.content)
+   }
+
+   useEffect(() => {
+    fetchuserContent()
+   },[])
+
+//    useEffect(() => {
+//     console.log(contents);          //state update is asynchronous, thus contents are not set immediately
+//    },[contents])
 
     return <div>
          
@@ -40,20 +38,10 @@ export function MainArea() {
          <div className="min-h-[calc(100vh-6em)]  w-[calc(100svw-4rem)] md:w-[calc(100svw-12rem)] bg-gray-200 flex flex-col justify-start items-center gap-4 py-4 px-4 lg:px-8 absolute top-24 left-12 md:left-40 box-border overflow-hidden overflow-y-auto rounded-lg">
 
     {/* Card Section */}
-        <div className="card-section flex gap-6 flex-wrap justify-center absolute top-0">
+        <div className="card-section flex gap-8 flex-wrap justify-start absolute top-0 lg:px-12">
 
-            <Card type={"tweet"} title={"An Important Tweet"} link="https://x.com/i/status/1878110938877820982" />
-
-            {/* <Card type={"tweet"} title={"An Important Tweet"} link="https://x.com/arjvnz/status/1880192178468843944/photo/1" />
-            <Card type={"tweet"} title={"An Important Tweet"} link="https://x.com/flyingbeast320/status/1880543240879006080" />
-
-
-            <Card type={"youtube"} title={"How to code a 2048 game in Js"} link="https://www.youtube.com/watch?v=veMa7GPhrIg" />
-            <Card type={"youtube"} title={"How to code a 2048 game in Js"} link="https://www.youtube.com/watch?v=zOE8HgCz5J4" />
-            <Card type={"youtube"} title={"How to code a 2048 game in Js"} link="https://www.youtube.com/watch?v=UVAItmSkkvE" />
-
-            <Card type={"document"} title={"A document with something"} /> */}
-
+            {contents.map((content,index) => <Card key={index} type={content.type} title={content.title} link={content.link} />)}
+           
         </div>
     </div>
     </div>

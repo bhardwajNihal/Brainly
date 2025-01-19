@@ -6,6 +6,7 @@ import {useRef } from "react"
 import axios from "axios";
 import { BACKEND_URL } from "../../../config";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export function AddModalPopup() {
 
@@ -19,6 +20,7 @@ export function AddModalPopup() {
     function setAddModalState() {
         AddModalState(curr => !curr)
     }
+    const navigate = useNavigate()
 
     async function addContent() {
         const token = localStorage.getItem("token");
@@ -27,24 +29,32 @@ export function AddModalPopup() {
         const type = typeRef.current?.value;
         const link = linkRef.current?.value
 
-        console.log(title, type, link);
-        console.log(token);
+        
+        // console.log(title, type, link);
+        // console.log(token);
         
 
-        const response = await axios.post(BACKEND_URL + "/api/v1/content",
-            {
-                title:title,
-                type:type,
-                link:link
-            }
-        ,{
-            headers: {
-                authorization : token
-            }
-        })
-        console.log(response);
-        setAddModalState()
-        toast.success("content added!")
+        try {
+            const response = await axios.post(BACKEND_URL + "/api/v1/content",
+                {
+                    title:title,
+                    type:type,
+                    link:link
+                }
+            ,{
+                headers: {
+                    authorization : token
+                }
+            })
+            // console.log(response.data.message);
+            setAddModalState()
+            toast.success(response.data.message)
+
+        } catch (error) {
+            toast.error("Adding content Failed!");
+            console.log(error);
+            
+        }
         
         
     }
@@ -63,8 +73,6 @@ export function AddModalPopup() {
                 <select ref={typeRef} className="h-full w-full bg-gray-300" name="type" id="type">
                     <option value="Tweet">Tweet</option>
                     <option value="Youtube">Youtube</option>
-                    <option value="Document">Document</option>
-                    <option value="Others">Others</option>
                 </select>
             </div>
 
