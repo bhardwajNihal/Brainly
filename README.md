@@ -11,6 +11,21 @@
     - define mongoose schemas and model
     - define auth middleware
     - add required scripts to package.json
-    - done with signup and signin route 
+    - done with signup and signin route
+    - done with content routes - add, delete, get, share
+
+# Frontend 
+    - initialized a vite react project
+    - created components - custom buttons, cards, modal popup
+    - custom icons
+    - pages - home, dashboard, signup, signin
+    - done with routing Frontend - using react-router-dom
+    - signup, signin form using react-hook-form, added detailed validation
+    - at dashboard 
+        = token validation, setting and getting from the localstorage
+        - add content - done connecting FE to BE
+        - fetching content from backend and displaying to the Ui
+        - logout functionality
+
 
 
