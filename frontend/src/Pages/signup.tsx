@@ -53,7 +53,7 @@ export const Signup: React.FC = () => {
 
                 <div className="flex flex-col items-center gap-3">
 
-                    <div className="absolute top-0 right-0 text-gray-400 p-1 m-1 rounded-lg hover:bg-purple-200"><Link to="/home"><CrossIcon size="md"/></Link></div>
+                    <div className="absolute top-0 right-0 text-gray-400 p-1 m-1 rounded-lg hover:bg-purple-200"><Link to="/"><CrossIcon size="md"/></Link></div>
 
                     {/* firstname */}
                     <div className="w-full">

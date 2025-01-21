@@ -34,13 +34,21 @@ export function MainArea() {
          <div className="heading fixed text-xl font-normal text-gray-500 left-1/5 top-16 z-40 bg-gray-300 rounded-tr-full w-48 text-center">
             <h2>All Content</h2>
          </div>
-
+    {/* Mainarea */}
          <div className="min-h-[calc(100vh-6em)]  w-[calc(100svw-4rem)] md:w-[calc(100svw-12rem)] bg-gray-200 flex flex-col justify-start items-center gap-4 py-4 px-4 lg:px-8 absolute top-24 left-12 md:left-40 box-border overflow-hidden overflow-y-auto rounded-lg">
 
     {/* Card Section */}
         <div className="card-section flex gap-8 flex-wrap justify-start absolute top-0 lg:px-12">
 
-            {contents.map((content,index) => <Card key={index} type={content.type} title={content.title} link={content.link} />)}
+
+
+        {(contents.length !== 0) 
+        ? contents.map((content,index) => <Card key={index} type={content.type} title={content.title} link= {content.link} />)
+        
+        : <div className=" mt-32 text-2xl text-gray-400 font-bold ">
+            <h2>No Brains yet!!!</h2>
+        </div> 
+        }
            
         </div>
     </div>

@@ -1,4 +1,4 @@
-import express from "express"
+import express, { response } from "express"
 import { Router } from "express"
 import { Request, Response } from "express"         //Request and Response are types from the Express library, and we need to explicitly import them to make TypeScript aware of their usage.
 import { Content } from "../models/contentModel"
@@ -7,6 +7,7 @@ import { userAuth } from "../middlewares/Auth"
 
 import { generateRandomHash } from "../utils/hashlink"
 import { User } from "../models/userModel"
+import { log } from "console"
 
 const app = express()
 const contentRoute = Router()
@@ -54,20 +55,37 @@ contentRoute.get("/", userAuth, async(req:Request, res:Response) => {
     })
 })  
 
+contentRoute.post("/getCardData",userAuth, async(req:Request, res:Response) => {
+    const userId = req.userId;
+    const title = req.body.title;
+
+    const response = await Content.find({
+        userId,
+        title
+    })
+
+    res.json({
+        response
+    })
+})
+
 // delete content
-contentRoute.delete("/",userAuth, async(req:Request, res:Response) => {
+contentRoute.delete("/:contentId",userAuth, async(req:Request, res:Response) => {
 
     const userId = req.userId;
-    const contentId = req.body.contentId;
+    const contentId = req.params.contentId;
 
-    await Content.deleteMany({
-        _id : contentId,
-        userId : userId
-    })
-
-    res.status(200).json({
-        message: "Content deleted successfully!"
-    })
+    try {
+        const response = await Content.deleteMany({
+            _id : contentId,
+            userId : userId
+        })
+        res.status(200).json({
+            message: "Content deleted successfully!"
+        })
+    } catch (error) {
+        console.log("Error Deleting content", error);
+    }
 
 })
 

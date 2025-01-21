@@ -25,7 +25,7 @@ export function Sidebar() {
     const navigate = useNavigate()
     async function Logout(){
         localStorage.removeItem("token");
-        await new Promise(res => setTimeout(res,2000))
+        // await new Promise(res => setTimeout(res,2000))
         navigate("/")
         toast.success("You Logged out successfully!")
     }

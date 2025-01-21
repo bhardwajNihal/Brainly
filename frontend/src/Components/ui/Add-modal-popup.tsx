@@ -2,11 +2,12 @@
 import { addModalAtom } from "../../Atoms/AddModalAtom"
 import { CrossIcon } from "../../icons/crossIcon"
 import { useRecoilValue,useSetRecoilState } from "recoil"
-import {useRef } from "react"
+import { useRef } from "react"
 import axios from "axios";
 import { BACKEND_URL } from "../../../config";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+
+
 
 export function AddModalPopup() {
 
@@ -20,7 +21,6 @@ export function AddModalPopup() {
     function setAddModalState() {
         AddModalState(curr => !curr)
     }
-    const navigate = useNavigate()
 
     async function addContent() {
         const token = localStorage.getItem("token");
@@ -28,11 +28,6 @@ export function AddModalPopup() {
         const title = titleRef.current?.value;
         const type = typeRef.current?.value;
         const link = linkRef.current?.value
-
-        
-        // console.log(title, type, link);
-        // console.log(token);
-        
 
         try {
             const response = await axios.post(BACKEND_URL + "/api/v1/content",
@@ -55,8 +50,6 @@ export function AddModalPopup() {
             console.log(error);
             
         }
-        
-        
     }
 
     return <div>

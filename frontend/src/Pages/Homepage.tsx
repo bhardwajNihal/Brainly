@@ -16,8 +16,8 @@ export function Homepage() {
 
 
             <div className="hidden md:block" >
-                <button className="bg-purple-600 text-white h-12 w-24 rounded-l-full mr-2"><Link to="/signup">Sign Up</Link></button>
-                <button className="border border-gray-500  h-12 w-24 rounded-r-full"><Link to="/signin">Login</Link></button>
+                <button className="bg-purple-600 hover:bg-blue-600 text-white h-12 w-24 rounded-lg mr-2"><Link to="/signup">Sign Up</Link></button>
+                <button className="border border-gray-500 hover:bg-purple-200 hover:text-purple-600  h-12 w-24 rounded-lg"><Link to="/signin">Login</Link></button>
             </div>
 
             <div className="md:hidden">

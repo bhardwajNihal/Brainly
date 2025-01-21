@@ -3,6 +3,10 @@ import { VideoIcon } from "../../icons/videoIcon"
 import { DocumentIcon } from "../../icons/documentIcon"
 import { ShareIcon } from "../../icons/shareIcon"
 import { DeleteIcon } from "../../icons/deleteIcon"
+import { useRef } from "react"
+import axios from "axios"
+import { BACKEND_URL } from "../../../config"
+import { toast } from "react-toastify"
 
 interface cardProps{
     title: string,
@@ -12,7 +16,44 @@ interface cardProps{
 
 export function Card({type,title,link}:cardProps){
 
-    return <div className="h-full min-w-32 rounded-lg bg-white shadow-md px-1 py-3">
+    const shareRef = useRef<HTMLButtonElement>(null);
+    const cardRef = useRef<HTMLDivElement>(null)
+
+    async function deleteCard() {
+        // console.log(cardRef.current?.textContent);
+        const title = cardRef.current?.textContent;
+        const token = localStorage.getItem("token")
+
+    // fetching Content ID: 
+        try {
+            const response = await axios.post(BACKEND_URL + "/api/v1/content/getCardData",{
+                title
+            },{
+                headers:{
+                    authorization : token
+                }
+            })
+            // console.log(response.data.response[0]._id);
+            const contentId = response.data.response[0]._id
+
+    // Deleting Content with given ID
+        const deleteResponse = await axios.delete(BACKEND_URL + `/api/v1/content/${contentId}`,{
+            headers : {                // axios.delete doesn's accept body, Id should be passed as parameters
+                authorization : token
+            }
+        })
+        console.log(deleteResponse.data.message);
+        toast.success(deleteResponse.data.message)
+    
+        } catch (error) {
+            console.log("Error Deleting Content!",error);
+            toast.error("Error Deleting Content!")   
+        }
+        
+    }
+
+
+    return <div ref={cardRef} className="h-full min-w-32 rounded-lg bg-white shadow-md px-1 py-3">
         
         <div className="cardHead flex justify-between items-center text-gray-500">
 
@@ -31,10 +72,12 @@ export function Card({type,title,link}:cardProps){
 
             <div className="flex justify-center items-center gap-2">
                 <div className="hover:bg-gray-300 p-1 rounded cursor-pointer">
-                    <ShareIcon size="md"/>
+                    <button ref={shareRef}><ShareIcon size="md"/></button>
                 </div>
-                <div className="hover:bg-gray-300 p-1 rounded cursor-pointer">
-                    <DeleteIcon size="sm"/>
+                <div className="hover:bg-gray-300 p-1 rounded">
+                    <button 
+                    onClick={deleteCard}
+                    ><DeleteIcon size="sm"/></button>
                 </div>
             </div>
 
