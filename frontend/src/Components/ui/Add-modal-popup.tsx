@@ -6,6 +6,7 @@ import { useRef } from "react"
 import axios from "axios";
 import { BACKEND_URL } from "../../../config";
 import { toast } from "react-toastify";
+import { ContentAtom } from "../../Atoms/ContentsAtom";
 
 
 
@@ -17,6 +18,8 @@ export function AddModalPopup() {
 
     const isModalOpen = useRecoilValue(addModalAtom)
     const AddModalState = useSetRecoilState(addModalAtom)
+
+    const setContents = useSetRecoilState(ContentAtom)
     
     function setAddModalState() {
         AddModalState(curr => !curr)
@@ -29,13 +32,14 @@ export function AddModalPopup() {
         const type = typeRef.current?.value;
         const link = linkRef.current?.value
 
+        const newContent = {
+            title:title,
+            type:type,
+            link:link
+        }
+
         try {
-            const response = await axios.post(BACKEND_URL + "/api/v1/content",
-                {
-                    title:title,
-                    type:type,
-                    link:link
-                }
+            const response = await axios.post(BACKEND_URL + "/api/v1/content",newContent  
             ,{
                 headers: {
                     authorization : token
@@ -43,6 +47,7 @@ export function AddModalPopup() {
             })
             // console.log(response.data.message);
             setAddModalState()
+            setContents((prevcontents) => [...prevcontents,newContent])
             toast.success(response.data.message)
 
         } catch (error) {

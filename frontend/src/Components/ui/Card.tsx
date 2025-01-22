@@ -7,6 +7,8 @@ import { useRef } from "react"
 import axios from "axios"
 import { BACKEND_URL } from "../../../config"
 import { toast } from "react-toastify"
+import { useSetRecoilState } from "recoil"
+import { ContentAtom } from "../../Atoms/ContentsAtom"
 
 interface cardProps{
     title: string,
@@ -18,6 +20,8 @@ export function Card({type,title,link}:cardProps){
 
     const shareRef = useRef<HTMLButtonElement>(null);
     const cardRef = useRef<HTMLDivElement>(null)
+
+    const setContents = useSetRecoilState(ContentAtom)
 
     async function deleteCard() {
         // console.log(cardRef.current?.textContent);
@@ -42,7 +46,8 @@ export function Card({type,title,link}:cardProps){
                 authorization : token
             }
         })
-        console.log(deleteResponse.data.message);
+        // console.log(deleteResponse.data.message);
+        setContents((prevcontents) => prevcontents.filter((c) => c._id != contentId))
         toast.success(deleteResponse.data.message)
     
         } catch (error) {
