@@ -40,7 +40,7 @@ export function MainArea() {
 
 
                 {(contents.length !== 0)
-                    ? contents.map((content, index) => <Card key={index} type={content.type} title={content.title} link={content.link} />)
+                    ? contents.map((content) => <Card key={content._id} type={content.type} title={content.title} link={content.link} />)
 
                     : <div className=" mt-32 text-2xl text-gray-400 font-bold ">
                         <h2>No Brains yet!!!</h2>

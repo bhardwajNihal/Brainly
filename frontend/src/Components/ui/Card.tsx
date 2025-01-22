@@ -3,7 +3,7 @@ import { VideoIcon } from "../../icons/videoIcon"
 import { DocumentIcon } from "../../icons/documentIcon"
 import { ShareIcon } from "../../icons/shareIcon"
 import { DeleteIcon } from "../../icons/deleteIcon"
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import axios from "axios"
 import { BACKEND_URL } from "../../../config"
 import { toast } from "react-toastify"
@@ -56,6 +56,16 @@ export function Card({type,title,link}:cardProps){
         }
         
     }
+
+// solution provided by chatgpt, for twitter loading fails : 
+useEffect(() => {
+    if (type === "Tweet" && window.twttr && window.twttr.widgets) {
+        window.twttr.widgets.load(cardRef.current); // Trigger widget re-render for this specific card
+    }
+}, [type, link]); // Run effect whenever type or link changes
+
+
+
 
 
     return <div ref={cardRef} className="h-full min-w-32 rounded-lg bg-white shadow-md px-1 py-3">
